@@ -1,0 +1,28 @@
+# Env files
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtualenv
+.venv/
+venv/
+
+# Docker
+*.log
+
+# Editor
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# pytest
+.pytest_cache/
+
+# Alembic migration scripts
+alembic/versions/*.pyc
