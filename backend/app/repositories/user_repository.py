@@ -1,4 +1,3 @@
-from typing import List, Optional
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.exc import IntegrityError
@@ -11,15 +10,15 @@ class SQLUserRepo(AbstractRepo[User, UserCreate, UserUpdate]):
     def __init__(self, db: AsyncSession):
         self.db = db
 
-    async def get(self, id: int) -> Optional[User]:
+    async def get(self, id: int) -> User | None:
         result = await self.db.execute(select(User).where(User.id == id))
         return result.scalars().first()
 
-    async def get_all(self, skip: int = 0, limit: int = 100) -> List[User]:
+    async def get_all(self, skip: int = 0, limit: int = 100) -> list[User]:
         result = await self.db.execute(select(User).offset(skip).limit(limit))
         return result.scalars().all()
 
-    async def get_by_email(self, email: str) -> Optional[User]:
+    async def get_by_email(self, email: str) -> User | None:
         result = await self.db.execute(select(User).where(User.email == email))
         return result.scalars().first()
 

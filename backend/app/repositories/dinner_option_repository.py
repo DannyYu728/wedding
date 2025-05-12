@@ -1,4 +1,3 @@
-from typing import List, Optional
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy.exc import IntegrityError
@@ -11,15 +10,15 @@ class SQLDinnerOptionRepo(AbstractRepo[DinnerOption, DinnerOptionOut, DinnerOpti
     def __init__(self, db: AsyncSession):
         self.db = db
 
-    async def get(self, id: int) -> Optional[DinnerOption]:
+    async def get(self, id: int) -> DinnerOption | None:
         result = await self.db.execute(select(DinnerOption).where(DinnerOption.id == id))
         return result.scalars().first()
 
-    async def get_all(self, skip: int = 0, limit: int = 100) -> List[DinnerOption]:
+    async def get_all(self, skip: int = 0, limit: int = 100) -> list[DinnerOption]:
         result = await self.db.execute(select(DinnerOption).offset(skip).limit(limit))
         return result.scalars().all()
 
-    async def get_by_name(self, name: str) -> Optional[DinnerOption]:
+    async def get_by_name(self, name: str) -> DinnerOption | None:
         result = await self.db.execute(select(DinnerOption).where(DinnerOption.name == name))
         return result.scalars().first()
 

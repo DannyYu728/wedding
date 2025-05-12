@@ -1,4 +1,3 @@
-from typing import Optional, List
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from app.models.plus_one import PlusOne
@@ -10,15 +9,15 @@ class SQLPlusOneRepo(AbstractRepo[PlusOne, PlusOneCreate, PlusOneUpdate]):
     def __init__(self, db: AsyncSession):
         self.db = db
 
-    async def get(self, id: int) -> Optional[PlusOne]:
+    async def get(self, id: int) -> PlusOne | None:
         result = await self.db.execute(select(PlusOne).where(PlusOne.id == id))
         return result.scalars().first()
 
-    async def get_by_user(self, user_id: int) -> Optional[PlusOne]:
+    async def get_by_user(self, user_id: int) -> PlusOne | None:
         result = await self.db.execute(select(PlusOne).where(PlusOne.user_id == user_id))
         return result.scalars().first()
 
-    async def get_all(self, skip: int = 0, limit: int = 100) -> List[PlusOne]:
+    async def get_all(self, skip: int = 0, limit: int = 100) -> list[PlusOne]:
         result = await self.db.execute(select(PlusOne).offset(skip).limit(limit))
         return result.scalars().all()
 
