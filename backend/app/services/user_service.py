@@ -1,5 +1,4 @@
 from passlib.context import CryptContext
-from typing import List
 from app.models.user import User
 from app.repositories.user_repository import SQLUserRepo
 from app.schemas.user import UserCreate, UserUpdate
@@ -25,7 +24,7 @@ class UserService:
             raise NotFoundError(f"User with id {user_id} not found")
         return user
 
-    async def get_all(self, skip: int = 0, limit: int = 100) -> List[User]:
+    async def get_all(self, skip: int = 0, limit: int = 100) -> list[User]:
         return await self.repo.get_all(skip, limit)
 
     async def update(self, user_id: int, payload: UserUpdate) -> User:

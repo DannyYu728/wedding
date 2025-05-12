@@ -1,4 +1,3 @@
-from typing import List
 from app.models.dinner_option import DinnerOption
 from app.repositories.dinner_option_repository import SQLDinnerOptionRepo
 from app.schemas.dinner_option import DinnerOptionOut
@@ -14,7 +13,7 @@ class DinnerOptionService:
             raise NotFoundError(f"Dinner option with id {option_id} not found")
         return option
 
-    async def get_all(self, skip: int = 0, limit: int = 100) -> List[DinnerOption]:
+    async def get_all(self, skip: int = 0, limit: int = 100) -> list[DinnerOption]:
         return await self.repo.get_all(skip, limit)
 
     async def create(self, payload: DinnerOptionOut) -> DinnerOption:

@@ -1,4 +1,3 @@
-from typing import List
 from app.models.plus_one import PlusOne
 from app.repositories.plus_one_repository import SQLPlusOneRepo
 from app.schemas.plus_one import PlusOneCreate, PlusOneUpdate
@@ -20,7 +19,7 @@ class PlusOneService:
             raise NotFoundError(f"PlusOne for user {user_id} not found")
         return plus
 
-    async def get_all(self, skip: int = 0, limit: int = 100) -> List[PlusOne]:
+    async def get_all(self, skip: int = 0, limit: int = 100) -> list[PlusOne]:
         return await self.repo.get_all(skip, limit)
 
     async def create(self, user_id: int, payload: PlusOneCreate) -> PlusOne:
