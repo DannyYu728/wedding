@@ -1,5 +1,5 @@
 from passlib.context import CryptContext
-from typing import Optional, List
+from typing import List
 from app.models.user import User
 from app.repositories.user_repository import SQLUserRepo
 from app.schemas.user import UserCreate, UserUpdate
