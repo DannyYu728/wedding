@@ -1,12 +1,10 @@
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.session import get_db
-from app.repositories.user_repository import SQLUserRepo
-from app.repositories.dinner_option_repository import SQLDinnerOptionRepo
-from app.repositories.plus_one_repository import SQLPlusOneRepo
-from app.services.user_service import UserService
-from app.services.dinner_option_service import DinnerOptionService
-from app.services.plus_one_service import PlusOneService
+
+from app.services     import UserService, DinnerOptionService, PlusOneService
+from app.repositories import SQLUserRepo, SQLDinnerOptionRepo, SQLPlusOneRepo
+
 from app.core.security import (
     get_current_user,
     get_current_active_user,
