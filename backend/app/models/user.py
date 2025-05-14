@@ -16,9 +16,9 @@ class User(Base):
     created_at           = Column(DateTime(timezone=True), server_default=func.now())
 
     appetizer_option_id = Column(Integer, ForeignKey("dinner_options.id"), nullable=True)
-    main_option_id = Column(Integer, ForeignKey("dinner_options.id"), nullable=True)
+    main_option_id      = Column(Integer, ForeignKey("dinner_options.id"), nullable=True)
 
     appetizer_option = relationship("DinnerOption", foreign_keys=[appetizer_option_id], lazy="joined")
-    main_option = relationship("DinnerOption", foreign_keys=[main_option_id], lazy="joined")
-    plus_one = relationship("PlusOne", uselist=False, back_populates="user", cascade="all, delete-orphan", lazy="joined")
+    main_option      = relationship("DinnerOption", foreign_keys=[main_option_id], lazy="joined")
+    plus_one         = relationship("PlusOne", uselist=False, back_populates="user", cascade="all, delete-orphan", lazy="joined")
  
