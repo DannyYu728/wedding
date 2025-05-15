@@ -24,7 +24,7 @@ class SQLDinnerOptionRepo(AbstractRepo[DinnerOption, DinnerOptionOut, DinnerOpti
 
     async def create(self, obj_in: DinnerOptionOut) -> DinnerOption:
         try:
-            db_obj = DinnerOption(**obj_in.dict())
+            db_obj = DinnerOption(**obj_in.model_dump())
             self.db.add(db_obj)
             await self.db.commit()
             await self.db.refresh(db_obj)
@@ -36,7 +36,7 @@ class SQLDinnerOptionRepo(AbstractRepo[DinnerOption, DinnerOptionOut, DinnerOpti
         db_obj = await self.get(id)
         if not db_obj:
             raise NotFoundError(f"Dinner option with id {id} not found")
-        for field, value in obj_in.dict(exclude_unset=True).items():
+        for field, value in obj_in.model_dump(exclude_unset=True).items():
             setattr(db_obj, field, value)
         self.db.add(db_obj)
         await self.db.commit()

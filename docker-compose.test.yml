@@ -1,0 +1,21 @@
+services:
+  db_test:
+    image: postgres:15
+    container_name: wedding_test_db
+    restart: always
+    env_file:
+      - ./backend/.env.test
+    volumes:
+      - db_test_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  backend:
+    env_file:
+      - ./backend/.env.test
+    depends_on:
+      - db_test
+
+volumes:
+  db_test_data:
+

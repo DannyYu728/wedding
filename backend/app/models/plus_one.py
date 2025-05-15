@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from app.db.base import Base
 
-class Plus_One(Base):
+class PlusOne(Base):
     __tablename__ = "plus_ones"
 
     id                   = Column(Integer, primary_key=True, index=True)

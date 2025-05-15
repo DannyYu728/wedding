@@ -35,7 +35,7 @@ class SQLPlusOneRepo(AbstractRepo[PlusOne, PlusOneCreate, PlusOneUpdate]):
         db_obj = await self.get(id)
         if not db_obj:
             raise NotFoundError(f"PlusOne with id {id} not found")
-        for field, value in obj_in.dict(exclude_unset=True).items():
+        for field, value in obj_in.model_dump(exclude_unset=True).items():
             setattr(db_obj, field, value)
         self.db.add(db_obj)
         await self.db.commit()

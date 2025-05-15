@@ -1,5 +1,6 @@
 # Env files
 .env
+.env.test
 
 # Python
 __pycache__/

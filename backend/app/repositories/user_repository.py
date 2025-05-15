@@ -23,20 +23,22 @@ class SQLUserRepo(AbstractRepo[User, UserCreate, UserUpdate]):
         return result.scalars().first()
 
     async def create(self, obj_in: UserCreate) -> User:
+        data = obj_in.model_dump(exclude={"password"}, exclude_none=True)
+        db_obj = User(**data)
+        self.db.add(db_obj)
         try:
-            db_obj = User(**obj_in.dict(exclude={"password"}))
-            self.db.add(db_obj)
             await self.db.commit()
-            await self.db.refresh(db_obj)
-            return db_obj
         except IntegrityError as e:
+            await self.db.rollback()
             raise DuplicateError("Email already registered") from e
+        await self.db.refresh(db_obj)
+        return db_obj
 
     async def update(self, id: int, obj_in: UserUpdate) -> User:
         db_obj = await self.get(id)
         if not db_obj:
             raise NotFoundError(f"User with id {id} not found")
-        for field, value in obj_in.dict(exclude_unset=True).items():
+        for field, value in obj_in.model_dump(exclude_unset=True).items():
             setattr(db_obj, field, value)
         self.db.add(db_obj)
         await self.db.commit()

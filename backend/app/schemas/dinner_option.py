@@ -1,5 +1,5 @@
 from enum import Enum
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 class DinnerCategory(str, Enum):
   appetizer = "appetizer"
@@ -10,5 +10,4 @@ class DinnerOptionOut(BaseModel):
   name: str
   category: DinnerCategory
   
-  class Config:
-    orm_mode = True
+  model_config = ConfigDict(from_attributes=True)

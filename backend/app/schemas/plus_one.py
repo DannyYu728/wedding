@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from app.schemas.dinner_option import DinnerOptionOut
 
 class PlusOneCreate(BaseModel):
@@ -20,5 +20,4 @@ class PlusOneOut(BaseModel):
     main_option:          DinnerOptionOut | None
     dietary_restrictions: str | None
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
