@@ -1,7 +1,8 @@
 import pytest
 from httpx import AsyncClient
 
-@pytest.mark.asyncio
+pytestmark = pytest.mark.asyncio(loop_scope="session")
+
 async def test_user_crud(client: AsyncClient):
 
     r = await client.post("/auth/token", data={

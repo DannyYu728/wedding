@@ -1,5 +1,4 @@
 import pytest_asyncio
-import asyncio
 import pytest
 from httpx import AsyncClient, ASGITransport
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
@@ -9,6 +8,9 @@ from passlib.context import CryptContext
 from app.main import app
 from app.db.base import Base
 from app.core.config import settings
+
+
+pytestmark = pytest.mark.asyncio(loop_scope="session")
 
 # Ensure HTTPX/AnyIO uses asyncio loop
 @pytest.fixture(scope="session")
@@ -26,12 +28,12 @@ TestingSessionLocal = sessionmaker(
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-@pytest.fixture(scope="session")
-def event_loop():
-    """Create an asyncio event loop for the entire test session."""
-    loop = asyncio.new_event_loop()
-    yield loop
-    loop.close()
+# @pytest.fixture(scope="session")
+# def event_loop():
+#     loop = asyncio.new_event_loop()
+#     asyncio.set_event_loop(loop)   
+#     yield loop
+#     loop.close()
     
 @pytest_asyncio.fixture(scope="session", autouse=True)
 async def prepare_db():

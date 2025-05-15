@@ -4,6 +4,8 @@ from app.services.user_service import UserService
 from app.schemas.user import UserCreate, UserUpdate
 from app.core.exceptions import DuplicateError, NotFoundError
 
+pytestmark = pytest.mark.asyncio(loop_scope="session")
+
 class FakeUserRepo:
     def __init__(self, existing=None, by_id=None):
         self._existing = existing or {}
@@ -34,7 +36,6 @@ class FakeUserRepo:
         if id in self._by_id:
             del self._by_id[id]
 
-@pytest.mark.asyncio
 async def test_register_duplicate():
     repo = FakeUserRepo(existing={"a@b.com": object()})
     svc = UserService(repo)
@@ -42,7 +43,6 @@ async def test_register_duplicate():
     with pytest.raises(DuplicateError):
         await svc.register(payload)
 
-@pytest.mark.asyncio
 async def test_register_success():
     repo = FakeUserRepo()
     svc = UserService(repo)
@@ -50,14 +50,12 @@ async def test_register_success():
     user = await svc.register(payload)
     assert user.email == "c@d.com"
 
-@pytest.mark.asyncio
 async def test_get_not_found():
     repo = FakeUserRepo(by_id={})
     svc = UserService(repo)
     with pytest.raises(NotFoundError):
         await svc.get(123)
 
-@pytest.mark.asyncio
 async def test_get_all():
     u1 = SimpleNamespace(id=1)
     u2 = SimpleNamespace(id=2)
@@ -66,7 +64,6 @@ async def test_get_all():
     users = await svc.get_all()
     assert users == [u1, u2]
 
-@pytest.mark.asyncio
 async def test_update_and_delete_not_found():
     repo = FakeUserRepo(by_id={})
     svc = UserService(repo)

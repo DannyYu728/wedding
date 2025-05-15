@@ -1,7 +1,8 @@
 import pytest
 from httpx import AsyncClient
 
-@pytest.mark.asyncio
+pytestmark = pytest.mark.asyncio(loop_scope="session")
+
 async def test_admin_creates_and_logs_in_user(client: AsyncClient):
     login = await client.post(
         "/auth/token",
